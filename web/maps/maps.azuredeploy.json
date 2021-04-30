@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accountName":{
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Maps Account."
+      }
+    },
+    "kind": {
+      "type": "string",
+      "metadata": {
+        "description": ""
+      },
+      "allowedValues": [
+        "Gen1",
+        "Gen2"
+      ],
+      "defaultValue": "Gen1"
+    },
+    "skuName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the SKU."
+      },
+      "allowedValues":[
+         "S0",
+         "S1",
+         "G2"
+      ],
+      "defaultValue": "S0"
+    }    
+  },
+  "functions": [],
+  "variables": {},
+  "resources": [
+    {
+      "comments": "Create a Maps Account",
+      "type": "Microsoft.Maps/accounts",
+      "apiVersion": "2021-02-01",
+      "name": "[parameters('accountName')]",
+      "location": "global",
+      "kind": "[parameters('kind')]",
+      "sku": {
+        "name": "[parameters('skuName')]"
+      }
+    }
+  ],
+  "outputs": {}
+}
