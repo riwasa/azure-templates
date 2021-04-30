@@ -15,7 +15,7 @@
 # *****************************************************************************
 
 # Get script variables.
-$resourceGroupName = "rim-mag-nfsstr"
+$resourceGroupName = "<resource-group-name>"
 
 # Create a Maps Account.
 New-AzResourceGroupDeployment `

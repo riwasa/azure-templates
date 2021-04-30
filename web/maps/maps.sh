@@ -17,7 +17,7 @@
 # *****************************************************************************
 
 # Get script variables.
-resourceGroupName="rim-mag-nfsstr"
+resourceGroupName="<resource-group-name>"
 
 # Create a Maps Account.
 az deployment group create \
