@@ -43,7 +43,7 @@
     "retentionInDays": {
       "type": "int",
       "metadata": {
-        "description": "The number of days to retain data,"
+        "description": "The number of days to retain data."
       }
     },
     "skuName": {
