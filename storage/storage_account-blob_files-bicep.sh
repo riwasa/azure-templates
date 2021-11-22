@@ -18,13 +18,9 @@
 # *****************************************************************************
 
 # Get script variables.
-#resourceGroupName="<resource-group-name>"
-#location="<resource-group-location>"
-#storageAccountName="<storage-account-name>"
-
-resourceGroupName="rim-demo"
-location="canadacentral"
-storageAccountName="rimdemostr14"
+resourceGroupName="<resource-group-name>"
+location="<resource-group-location>"
+storageAccountName="<storage-account-name>"
 
 # Create a Storage Account.
 echo "Creating a Storage Account"

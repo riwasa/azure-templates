@@ -1,6 +1,6 @@
 # *****************************************************************************
 #
-# File:        resource-group.ps1
+# File:        resource_group-arm.ps1
 #
 # Description: Creates a Resource Group.
 #
@@ -20,6 +20,8 @@ $location = "<resource-group-location>"
 $deploymentName = "$resourceGroupName-resource-group-$location"
 
 # Create a Resource Group.
+Write-Host "Creating a Resource Group"
+
 New-AzDeployment `
   -Name "$deploymentName" `
   -Location "$location" `

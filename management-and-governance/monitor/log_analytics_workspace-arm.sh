@@ -2,7 +2,7 @@
 
 # *****************************************************************************
 #
-# File:        log-analytics-workspace.sh
+# File:        log_analytics_workspace-arm.sh
 #
 # Description: Creates a Log Analytics Workspace.
 #

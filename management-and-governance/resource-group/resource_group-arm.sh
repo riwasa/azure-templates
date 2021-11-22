@@ -2,7 +2,7 @@
 
 # *****************************************************************************
 #
-# File:        resource-group.sh
+# File:        resource_group-arm.sh
 #
 # Description: Creates a Resource Group.
 #
@@ -22,6 +22,8 @@ location="<resource-group-location>"
 deploymentName="$resourceGroupName-resource-group-$location"
 
 # Create a Resource Group.
+echo "Creating a Resource Group"
+
 az deployment sub create \
   --name "$deploymentName" \
   --location "$location" \

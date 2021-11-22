@@ -1,6 +1,6 @@
 # *****************************************************************************
 #
-# File:        log-analytics-workspace.ps1
+# File:        log_analytics_workspace-bicep.ps1
 #
 # Description: Creates a Log Analytics Workspace.
 #
@@ -15,13 +15,9 @@
 # *****************************************************************************
 
 # Get script variables.
-#$resourceGroupName = "<resource-group-name>"
-#$location = "<resource-group-location>"
-#$workspaceName = "<log-analytics-workspace-name>"
-
-$resourceGroupName = "rim-demo"
-$location = "canadacentral"
-$workspaceName = "rim-demo-law-6"
+$resourceGroupName = "<resource-group-name>"
+$location = "<resource-group-location>"
+$workspaceName = "<log-analytics-workspace-name>"
 
 # Create a Log Analytics Workspace.
 Write-Host "Creating a Log Analytics Workspace"

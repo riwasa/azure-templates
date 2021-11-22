@@ -1,6 +1,6 @@
 # *****************************************************************************
 #
-# File:        log-analytics-workspace.ps1
+# File:        log_analytics_workspace-arm.ps1
 #
 # Description: Creates a Log Analytics Workspace.
 #
