@@ -26,4 +26,5 @@ az deployment sub create \
   --name "$deploymentName" \
   --location "$location" \
   --template-file "resource-group.azuredeploy.json" \
-  --parameters resourceGroupName="$resourceGroupName" location="$location"
+  --parameters resourceGroupName="$resourceGroupName" \
+               location="$location"
