@@ -225,7 +225,7 @@
     "sftpEnabled": {
       "type": "bool",
       "metadata": {
-        "description": "Enables SFTP"
+        "description": "Enables SFTP."
       }
     },
     "skuName": {
