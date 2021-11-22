@@ -1,0 +1,86 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "workspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Log Analytics Workspace."
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of the resource."
+      }
+    },
+    "dailyQuotaInGB": {
+      "type": "int",
+      "metadata": {
+        "description": "The maximum number of GB/day to ingest."
+      }
+    },
+    "publicNetworkAccessForIngestion": {
+      "type": "string",
+      "metadata": {
+        "description": "The network access type for data ingestion."
+      },
+      "allowedValues": [
+        "Disabled",
+        "Enabled"
+      ]
+    },
+    "publicNetworkAccessForQuery": {
+      "type": "string",
+      "metadata": {
+        "description": "The network access type for querying."
+      },
+      "allowedValues": [
+        "Disabled",
+        "Enabled"
+      ]
+    },
+    "retentionInDays": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of days to retain data,"
+      }
+    },
+    "skuName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the SKU."
+      },
+      "allowedValues": [
+        "CapacityReservation",
+        "Free",
+        "LACluster",
+        "PerGB2018",
+        "PerNode",
+        "Premium",
+        "Standalone",
+        "Standard"
+      ]
+    }
+  },
+  "resources": [
+    {
+      "comments": "Create a Log Analytics Workspace",
+      "type": "Microsoft.OperationalInsights/workspaces",
+      "apiVersion": "2021-06-01",
+      "name": "[parameters('workspaceName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicNetworkAccessForIngestion": "[parameters('publicNetworkAccessForIngestion')]",
+        "publicNetworkAccessForQuery": "[parameters('publicNetworkAccessForQuery')]",
+        "retentionInDays": "[parameters('retentionInDays')]",
+        "sku": {
+          "name": "[parameters('skuName')]"
+        },
+        "workspaceCapping": {
+          "dailyQuotaGb": "[parameters('dailyQuotaInGB')]"
+        }
+      }
+    }
+  ]
+}
