@@ -1,0 +1,96 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accessTier": {
+      "value": "Hot"
+    },
+    "allowBlobPublicAccess": {
+      "value": false
+    },
+    "allowCrossTenantReplication": {
+      "value": false
+    },
+    "allowSharedKeyAccess": {
+      "value": true
+    },
+    "blobChangeFeedEnabled": {
+      "value": false
+    },
+    "blobChangeFeedRetentionInDays": {
+      "value": 0
+    },
+    "blobContainerDeleteRetentionPolicyDays": {
+      "value": 6
+    },
+    "blobContainerDeleteRetentionPolicyEnabled": {
+      "value": false
+    },
+    "blobDeleteRetentionPolicyDays": {
+      "value": 7
+    },
+    "blobDeleteRetentionPolicyEnabled": {
+      "value": false
+    },
+    "blobIsVersioningEnabled": {
+      "value": false
+    },
+    "blobLastAccessTimeTrackingPolicyEnabled": {
+      "value": false
+    },
+    "blobRestorePolicyDays": {
+      "value": 6
+    },
+    "blobRestorePolicyEnabled": {
+      "value": false
+    },
+    "defaultToOAuthAuthentication": {
+      "value": false
+    },
+    "fileShareDeleteRetentionPolicyDays": {
+      "value": 7
+    },
+    "fileShareDeleteRetentionPolicyEnabled": {
+      "value": false
+    },
+    "hnsEnabled": {
+      "value": false
+    },
+    "immutableStorageWithVersioning": {
+      "value": false
+    },
+    "kind": {
+      "value": "StorageV2"
+    },
+    "largeFileSharesState": {
+      "value": "Disabled"
+    },
+    "minimumTlsVersion": {
+      "value": "TLS1_2"
+    },
+    "networkAclsBypass": {
+      "value": "AzureServices"
+    },
+    "networkAclsDefaultAction": {
+      "value": "Allow"
+    },
+    "routingPreferencePublishInternetEndpoints": {
+      "value": false
+    },
+    "routingPreferencePublishMicrosoftEndpoints": {
+      "value": false
+    },
+    "routingPreferenceRoutingChoice": {
+      "value": "MicrosoftRouting"
+    },
+    "sftpEnabled": {
+      "value": false
+    },
+    "skuName": {
+      "value": "Standard_LRS"
+    },
+    "supportsHttpsTrafficOnly": {
+      "value": true
+    }
+  }
+}

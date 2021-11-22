@@ -1,0 +1,349 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Storage Account."
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of the Storage Account."
+      }
+    },
+    "accessTier": {
+      "type": "string",
+      "metadata": {
+        "description": "The access tier used for billing. Required for kind = BlobStorage."
+      },
+      "allowedValues": [
+        "Cool",
+        "Hot"
+      ]
+    },
+    "allowBlobPublicAccess": {
+      "type": "bool",
+      "metadata": {
+        "description": "Allow public access to all blobs or containers in the storage account."
+      }
+    },
+    "allowCrossTenantReplication": {
+      "type": "bool",
+      "metadata": {
+        "description": "Allow cross-AAD tenant object replication."
+      }
+    },
+    "allowSharedKeyAccess": {
+      "type": "bool",
+      "metadata": {
+        "description": "Allow requests to be authorized with a Shared Key instead of Azure AD."
+      }
+    },
+    "blobChangeFeedEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables change feed event logging. HNS must be disabled."
+      }
+    },
+    "blobChangeFeedRetentionInDays": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of days to retain the change feed, from 1 to 146000 or null for infinite retention."
+      },
+      "defaultValue": 0
+    },
+    "blobContainerDeleteRetentionPolicyDays": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of days to retain deleted containers, from 1 to 365."
+      },
+      "maxValue": 365,
+      "minValue": 1
+    },
+    "blobContainerDeleteRetentionPolicyEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables container soft delete."
+      }
+    },
+    "blobDeleteRetentionPolicyDays": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of days to retain deleted blobs, from 1 to 365."
+      },
+      "maxValue": 365,
+      "minValue": 1
+    },
+    "blobDeleteRetentionPolicyEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables blob soft delete. Must opt-in per subscription if HNS is enabled."
+      }
+    },
+    "blobIsVersioningEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables versioning. HNS must be disabled."
+      }
+    },
+    "blobLastAccessTimeTrackingPolicyEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables last access time based tracking."
+      }
+    },
+    "blobRestorePolicyDays": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of days blobs can be restored, from 0 to the delete retention policy days."
+      },
+      "minValue": 0
+    },
+    "blobRestorePolicyEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables point-in-time restore, for block blobs only. HNS must be disabled."
+      }
+    },
+    "defaultToOAuthAuthentication": {
+      "type": "bool",
+      "metadata": {
+        "description": "Default authentication is OAuth."
+      }
+    },
+    "fileShareDeleteRetentionPolicyDays": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of days to retain deleted file shares, from 1 to 365."
+      },
+      "maxValue": 365,
+      "minValue": 1
+    },
+    "fileShareDeleteRetentionPolicyEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables file share soft delete."
+      }
+    },
+    "hnsEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables hierarchical namespace."
+      }
+    },
+    "immutableStorageWithVersioning": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables account-level immutability. Auto-enabled Blob Versioning. HNS must be disabled."
+      }
+    },
+    "kind": {
+      "type": "string",
+      "metadata": {
+        "description": "The type of the Storage Account."
+      },
+      "allowedValues": [
+        "BlobStorage",
+        "BlockBlobStorage",
+        "FileStorage",
+        "Storage",
+        "StorageV2"
+      ]
+    },
+    "largeFileSharesState": {
+      "type": "string",
+      "metadata": {
+        "description": "Enables large file shares. Kind must be LRS or ZRS."
+      },
+      "allowedValues": [
+        "Disabled",
+        "Enabled"
+      ]
+    },
+    "minimumTlsVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "The minimum TLS version to be permitted on requests to storage."
+      },
+      "allowedValues": [
+        "TLS1_0",
+        "TLS1_1",
+        "TLS1_2"
+      ]
+    },
+    "networkAclsBypass": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies whether traffic is bypassed."
+      },
+      "allowedValues": [
+        "AzureServices",
+        "Logging",
+        "Metrics",
+        "None",
+        "AzureServices, Logging",
+        "AzureServices, Metrics",
+        "AzureServices, Logging, Metrics",
+        "Logging, Metrics"
+      ]
+    },
+    "networkAclsDefaultAction": {
+      "type": "string",
+      "metadata": {
+        "description": "The default action when no other rules match."
+      },
+      "allowedValues": [
+        "Allow",
+        "Deny"
+      ]
+    },
+    "routingPreferencePublishInternetEndpoints": {
+      "type": "bool",
+      "metadata": {
+        "description": "Allows internet routing storage endpoints to be published."
+      }
+    },
+    "routingPreferencePublishMicrosoftEndpoints": {
+      "type": "bool",
+      "metadata": {
+        "description": "Allows Microsoft routing storage endpoints to be published."
+      }
+    },
+    "routingPreferenceRoutingChoice": {
+      "type": "string",
+      "metadata": {
+        "description": "The kind of network routing."
+      },
+      "allowedValues": [
+        "InternetRouting",
+        "MicrosoftRouting"
+      ]
+    },
+    "sftpEnabled": {
+      "type": "bool",
+      "metadata": {
+        "description": "Enables SFTP"
+      }
+    },
+    "skuName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the SKU."
+      },
+      "allowedValues": [
+        "Premium_LRS",
+        "Premium_ZRS",
+        "Standard_GRS",
+        "Standard_GZRS",
+        "Standard_LRS",
+        "Standard_RAGRS",
+        "Standard_RAGZRS",
+        "Standard_ZRS"
+      ]
+    },
+    "supportsHttpsTrafficOnly": {
+      "type": "bool",
+      "metadata": {
+        "description": "Allows https traffic only."
+      }
+    }
+  },
+  "variables": {
+    "immutableStorageWithVersioning": {
+      "enabled": "[parameters('immutableStorageWithVersioning')]"
+    },
+    "storageAccountNameFormatted": "[toLower(parameters('storageAccountName'))]"
+  },
+  "resources": [
+    {
+      "comments": "Create a Storage Account",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2021-06-01",
+      "name": "[variables('storageAccountNameFormatted')]",
+      "location": "[parameters('location')]",
+      "kind": "[parameters('kind')]",
+      "sku": {
+        "name": "[parameters('skuName')]"
+      },
+      "properties": {
+        "accessTier": "[parameters('accessTier')]",
+        "allowBlobPublicAccess": "[parameters('allowBlobPublicAccess')]",
+        "allowCrossTenantReplication": "[parameters('allowCrossTenantReplication')]",
+        "allowSharedKeyAccess": "[parameters('allowSharedKeyAccess')]",
+        "defaultToOAuthAuthentication": "[parameters('defaultToOAuthAuthentication')]",
+        "immutableStorageWithVersioning": "[if(parameters('immutableStorageWithVersioning'), variables('immutableStorageWithVersioning'), json('null'))]",
+        "isHnsEnabled": "[parameters('hnsEnabled')]",
+        "isSftpEnabled": "[parameters('sftpEnabled')]",
+        "largeFileSharesState": "[parameters('largeFileSharesState')]",
+        "minimumTlsVersion": "[parameters('minimumTlsVersion')]",
+        "networkAcls": {
+          "bypass": "[parameters('networkAclsBypass')]",
+          "defaultAction": "[parameters('networkAclsDefaultAction')]",
+          "ipRules": []
+        },
+        "routingPreference": {
+          "publishInternetEndpoints": "[parameters('routingPreferencePublishInternetEndpoints')]",
+          "publishMicrosoftEndpoints": "[parameters('routingPreferencePublishMicrosoftEndpoints')]",
+          "routingChoice": "[parameters('routingPreferenceRoutingChoice')]"
+        },
+        "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
+      }
+    },
+    {
+      "comments": "Configure blob services",
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2021-06-01",
+      "name": "[concat(variables('storageAccountNameFormatted'), '/default')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountNameFormatted'))]"
+      ],
+      "properties": {
+        "changeFeed": {
+          "enabled": "[parameters('blobChangeFeedEnabled')]",
+          "retentionInDays": "[if(equals(parameters('blobChangeFeedRetentionInDays'), 0), json('null'), parameters('blobChangeFeedRetentionInDays'))]"
+        },
+        "containerDeleteRetentionPolicy": {
+          "days": "[parameters('blobContainerDeleteRetentionPolicyDays')]",
+          "enabled": "[parameters('blobContainerDeleteRetentionPolicyEnabled')]"
+        },
+        "deleteRetentionPolicy": {
+          "days": "[parameters('blobDeleteRetentionPolicyDays')]",
+          "enabled": "[parameters('blobDeleteRetentionPolicyEnabled')]"
+        },
+        "isVersioningEnabled": "[parameters('blobIsVersioningEnabled')]",
+        "lastAccessTimeTrackingPolicy": {
+          "enable": "[parameters('blobLastAccessTimeTrackingPolicyEnabled')]"
+        },
+        "restorePolicy": {
+          "days": "[parameters('blobRestorePolicyDays')]",
+          "enabled": "[parameters('blobRestorePolicyEnabled')]"
+        }
+      }
+    },
+    {
+      "comments": "Configure file services",
+      "type": "Microsoft.Storage/storageAccounts/fileServices",
+      "apiVersion": "2021-06-01",
+      "name": "[concat(variables('storageAccountNameFormatted'), '/default')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountNameFormatted'))]",
+        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountNameFormatted'), '/blobServices/default')]"
+      ],
+      "properties": {
+        "shareDeleteRetentionPolicy": {
+          "days": "[parameters('fileShareDeleteRetentionPolicyDays')]",
+          "enabled": "[parameters('fileShareDeleteRetentionPolicyEnabled')]"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "storageAccountName": {
+      "type": "string",
+      "value": "[variables('storageAccountNameFormatted')]"
+    }
+  }
+}
