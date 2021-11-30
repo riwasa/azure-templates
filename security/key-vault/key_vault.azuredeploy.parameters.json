@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "enabledForDeployment": {
+      "value": false
+    },
+    "enabledForDiskEncryption": {
+      "value": false
+    },
+    "enabledForTemplateDeployment": {
+      "value": false
+    },
+    "enablePurgeProtection": {
+      "value": false
+    },
+    "enableRbacAuthorization": {
+      "value": true
+    },
+    "enableSoftDelete": {
+      "value": true
+    },
+    "networkAclsBypass": {
+      "value": "AzureServices"
+    },
+    "networkAclsDefaultAction": {
+      "value": "Allow"
+    },
+    "publicNetworkAccess": {
+      "value": "enabled"
+    },
+    "skuName": {
+      "value": "standard"
+    },
+    "softDeleteRetentionInDays": {
+      "value": 90
+    }
+  }
+}

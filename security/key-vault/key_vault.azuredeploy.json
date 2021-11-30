@@ -1,0 +1,184 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "keyVaultName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Key Vault."
+      }
+    },
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of the resource."
+      }
+    },
+    "accessPolicies": {
+      "type": "array",
+      "metadata": {
+        "description": "An array of 0 to 1024 identities that have access to the Key Vault."
+      },
+      "defaultValue": []
+    },
+    "enabledForDeployment": {
+      "type": "bool",
+      "metadata": {
+        "description": "Indicates whether Azure VMs are allowed to retrieve certificates stored as secrets."
+      }
+    },
+    "enabledForDiskEncryption": {
+      "type": "bool",
+      "metadata": {
+        "description": "Indicates whether Azure Disk Encryption is allowed to retrieve secrets and unwrap keys."
+      }
+    },
+    "enabledForTemplateDeployment": {
+      "type": "bool",
+      "metadata": {
+        "description": "Indicates whether Azure Resource Manager is allowed to retrieve secrets."
+      }
+    },
+    "enablePurgeProtection": {
+      "type": "bool",
+      "metadata": {
+        "description": "Indicates whether protection against purge is enabled."
+      }
+    },
+    "enableRbacAuthorization": {
+      "type": "bool",
+      "metadata": {
+        "description": "Indicates whether RBAC is used for authorization of data actions instead of Access Policies."
+      }
+    },
+    "enableSoftDelete": {
+      "type": "bool",
+      "metadata": {
+        "description": "Indicates whether soft delete is enabled."
+      }
+    },
+    "networkAclsBypass": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies which traffic can bypass network rules."
+      },
+      "allowedValues": [
+        "AzureServices",
+        "None"
+      ]
+    },
+    "networkAclsDefaultAction": {
+      "type": "string",
+      "metadata": {
+        "description": "The default action when no rule matches."
+      },
+      "allowedValues": [
+        "Allow",
+        "Deny"
+      ]
+    },
+    "networkAclsIpRules": {
+      "type": "array",
+      "metadata": {
+        "description": "The list of IP address rules."
+      },
+      "defaultValue": []
+    },
+    "networkAclsVirtualNetworkRules": {
+      "type": "array",
+      "metadata": {
+        "description": "The list of Virtual Network rules."
+      },
+      "defaultValue": []
+    },
+    "publicNetworkAccess": {
+      "type": "string",
+      "metadata": {
+        "description": "Indicates whether the vault accepts traffic from the public internet."
+      },
+      "allowedValues": [
+        "disabled",
+        "enabled"
+      ]
+    },
+    "skuName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the SKU."
+      },
+      "allowedValues": [
+        "premium",
+        "standard"
+      ]
+    },
+    "softDeleteRetentionInDays": {
+      "type": "int",
+      "metadata": {
+        "description": "The number of days to retain data if soft delete is enabled."
+      },
+      "maxValue": 90,
+      "minValue": 7
+    }
+  },
+  "variables": {
+    "copy": [
+      {
+        "name": "addAccessPolicies",
+        "count": "[length(parameters('accessPolicies'))]",
+        "input": {
+          "objectId": "[parameters('accessPolicies')[copyIndex('addAccessPolicies')].objectId]",
+          "permissions": "[parameters('accessPolicies')[copyIndex('addAccessPolicies')].permissions]",
+          "tenantId": "[subscription().tenantId]"
+        }
+      },
+      {
+        "name": "addIpRules",
+        "count": "[length(parameters('networkAclsIpRules'))]",
+        "input": {
+          "value": "[parameters('networkAclsIpRules')[copyIndex('addIpRules')].value]"
+        }
+      },
+      {
+        "name": "addVNetRules",
+        "count": "[length(parameters('networkAclsVirtualNetworkRules'))]",
+        "input": {
+          "id": "[parameters('networkAclsVirtualNetworkRules')[copyIndex('addVNetRules')].id]",
+          "ignoreMissingVnetServiceEndpoint": "[parameters('networkAclsVirtualNetworkRules')[copyIndex('addVNetRules')].ignoreMissingVnetServiceEndpoint]"
+        }
+      }
+    ]
+    "isAccessPolicy": "[not(empty(parameters('accessPolicies')))]",
+    "isIpRules": "[not(empty(parameters('networkAclsIpRules')))]",
+    "isVNetRules": "[not(empty(parameters('networkAclsVirtualNetworkRules')))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2021-06-01-preview",
+      "name": "[parameters('keyVaultName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "accessPolicies": "[if(variables('isAccessPolicy'), variables('addAccessPolicies'), json('null'))]",
+        "enabledForDeployment": "[parameters('enabledForDeployment')]",
+        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+        "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+        "enablePurgeProtection": "[if(parameters('enablePurgeProtection'), parameters('enablePurgeProtection'), json('null'))]",
+        "enableRbacAuthorization": "[parameters('enableRbacAuthorization')]",
+        "enableSoftDelete": "[parameters('enableSoftDelete')]",
+        "networkAcls": {
+          "bypass": "[parameters('networkAclsBypass')]",
+          "defaultAction": "[parameters('networkAclsDefaultAction')]",
+          "ipRules": "[if(variables('isIpRules'), variables('addIpRules'), json('null'))]",
+          "virtualNetworkRules": "[if(variables('isVNetRules'), variables('addVNetRules'), json('null'))]"
+        },
+        "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
+        "sku": {
+          "family": "A",
+          "name": "[parameters('skuName')]"
+        },
+        "softDeleteRetentionInDays": "[if(parameters('enableSoftDelete'), parameters('softDeleteRetentionInDays'), json('null'))]",
+        "tenantId": "[subscription().tenantId]"
+      }
+    }
+  ]
+}
