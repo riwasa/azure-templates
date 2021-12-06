@@ -2,7 +2,7 @@
 
 # *****************************************************************************
 #
-# File:        log_analytics_workspace-arm.sh
+# File:        log_analytics_workspace-bicep.sh
 #
 # Description: Creates a Log Analytics Workspace.
 #
