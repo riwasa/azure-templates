@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "actionGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Action Group."
+      }
+    },
+    "actionGroupShortName": {
+      "type": "string",
+      "metadata": {
+        "description": "The short name for the Action Group. Up to 12 characters in length."
+      },
+      "maxLength": 12
+    },
+    "emailAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "The e-mail address for the receiver."
+      }
+    },
+    "emailName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the receiver."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "microsoft.insights/actionGroups",
+      "apiVersion": "2019-06-01",
+      "name": "[parameters('actionGroupName')]",
+      "location": "Global",
+      "properties": {
+        "emailReceivers": [
+          {
+            "emailAddress": "[parameters('emailAddress')]",
+            "name": "[parameters('emailName')]",
+            "useCommonAlertSchema": true
+          }
+        ],
+        "enabled": true,
+        "groupShortName": "[parameters('actionGroupShortName')]"
+      }
+    }
+  ]
+}
