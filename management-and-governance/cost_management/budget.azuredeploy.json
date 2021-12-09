@@ -1,0 +1,110 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "budgetName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Budget."
+      }
+    },
+    "amount": {
+      "type": "int",
+      "metadata": {
+        "description": "The total amount of cost or usage to track."
+      }
+    },
+    "contactEmails": {
+      "type": "array",
+      "metadata": {
+        "description": "The list of e-mail addresses to send the notifications to."
+      },
+      "defaultValue": []
+    },
+    "contactGroups": {
+      "type": "array",
+      "metadata": {
+        "description": "The list of Action Groups to send the notifications to."
+      },
+      "defaultValue": []
+    },
+    "contactRoles": {
+      "type": "array",
+      "metadata": {
+        "description": "The list of roles to send the notifications to."
+      },
+      "defaultValue": []
+    },
+    "firstThreshold": {
+      "type": "int",
+      "metadata": {
+        "description": "The threshold for the first notification. Percentage between 0 and 1000."
+      }
+    },
+    "secondThreshold": {
+      "type": "int",
+      "metadata": {
+        "description": "The threshold for the second notification. Percentage between 0 and 1000."
+      }
+    },
+    "startDate": {
+      "type": "string",
+      "metadata": {
+        "description": "The start date for the budget as the first of the month in YYYY-MM-DD format. Future start date should not be more than three months. Past start date should be selected within the timegrain period."
+      }
+    },
+    "endDate": {
+      "type": "string",
+      "metadata": {
+        "description": "The end date for the budget in YYYY-MM-DD format. If not provided, this is defaulted to 10 years from the start date."
+      }
+    },
+    "timeGrain": {
+      "type": "string",
+      "metadata": {
+        "description": "The time covered by the Budget. Tracking will be reset based on the time grain."
+      },
+      "defaultValue": "Monthly",
+      "allowedValues": [
+        "Monthly",
+        "Quarterly",
+        "Annually"
+      ]
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Consumption/budgets",
+      "apiVersion": "2021-10-01",
+      "name": "[parameters('budgetName')]",
+      "properties": {
+        "amount": "[parameters('amount')]",
+        "category": "Cost",
+        "notifications": {
+          "NotificationForExceededBudget1": {
+            "contactEmails": "[parameters('contactEmails')]",
+            "contactGroups": "[parameters('contactGroups')]",
+            "contactRoles": "[parameters('contactRoles')]",
+            "enabled": true,
+            "operator": "GreaterThan",
+            "threshold": "[parameters('firstThreshold')]"
+          },
+          "NotificationForExceededBudget2": {
+            "contactEmails": "[parameters('contactEmails')]",
+            "contactGroups": "[parameters('contactGroups')]",
+            "contactRoles": "[parameters('contactRoles')]",
+            "enabled": true,
+            "operator": "GreaterThan",
+            "threshold": "[parameters('secondThreshold')]"
+          }
+        },
+        "timeGrain": "[parameters('timeGrain')]",
+        "timePeriod": {
+          "startDate": "[parameters('startDate')]",
+          "endDate": "[parameters('endDate')]"
+        }
+      }
+    }
+  ]
+}
