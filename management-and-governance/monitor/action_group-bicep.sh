@@ -18,7 +18,6 @@
 
 # Get script variables.
 resourceGroupName="<resource-group-name>"
-location="<resource-group-location>"
 actionGroupName="<name-of-action-group>"
 actionGroupShortName="<short-name-of-action-group>"
 emailAddress="<email-address-of-person-to-notify>"
