@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the Virtual Network."
+      }
+    },
+    "addressSpace": {
+      "type": "string",
+      "metadata": {
+        "description": "The address space of the Virtual Network."
+      },
+      "allowedValues": [
+        "10.0.0.0/24",
+        "172.16.0.0/24",
+        "192.168.0.0/24"
+      ]
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "addressPrefix": "[substring(parameters('addressSpace'), 0, sub(length(parameters('addressSpace')), 5))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-11-01",
+      "comments": "Creates a Virtual Network",
+      "name": "[parameters('vnetName')]",
+      "location": "[variables('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('addressSpace')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "AzureBastionSubnet",
+            "properties": {
+              "addressPrefix": "[concat(variables('addressPrefix'), '.0/26')]"
+            }
+          },
+          {
+            "name": "default",
+            "properties": {
+              "addressPrefix": "[concat(variables('addressPrefix'), '.64/27')]"
+            }
+          },
+          {
+            "name": "pe",
+            "properties": {
+              "addressPrefix": "[concat(variables('addressPrefix'), '.96/27')]"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {}
+}
